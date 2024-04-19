@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import pandas as pd
 from sklearn.metrics import classification_report
@@ -14,6 +15,16 @@ from limpieza_module import limpieza
 import numpy as np
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 model = load("reviewModel.joblib")
 from transformData import x_test, y_test
@@ -56,8 +67,8 @@ def get_metrics():
    feature_names = model.named_steps['tfidfvectorizer'].get_feature_names_out()
    coefficients = model.named_steps['logisticregression'].coef_
    for i, class_label in enumerate(model.named_steps['logisticregression'].classes_):
-      top10 = np.argsort(coefficients[i])[-10:][::-1]
-      words[str(class_label)] = [feature_names[j] for j in top10]
+      top5 = np.argsort(coefficients[i])[-5:][::-1]
+      words[str(class_label)] = [[feature_names[j], coefficients[i][j]] for j in top5]
    
    return {"report": report, "words": words}
 
