@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Predecir = () => {
     const [inputs, setInputs] = useState([{ text: '', result: null, prob: null }]);
 
     const [tiempoReal, setTiempoReal] = useState(false);
+    const [APIunavailable, setAPIunavailable] = useState(true);
+
+    useEffect(() => {
+        const checkAPI = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/');
+                if (response.ok) {
+                    setAPIunavailable(false);
+                } else {
+                    setAPIunavailable(true);
+                }
+            } catch (error) {
+                setAPIunavailable(true);
+            }
+        };
+    
+        checkAPI();
+    }, []);
+    
 
     const handleAddInput = () => {
         setInputs([...inputs, { text: '', result: null, prob: null }]);
@@ -100,6 +120,8 @@ const Predecir = () => {
     return (
         <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1 style={{ textAlign: 'center', paddingBottom: "15px" }}>Predecir reseñas</h1>
+            {APIunavailable ?
+            <Spinner animation="border" role="status"/> : 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                 <button 
                     onClick={() => setTiempoReal(!tiempoReal)}
@@ -130,8 +152,9 @@ const Predecir = () => {
                     />
                 </button>
                 <p style={{ marginLeft: '10px' }}>Prediccion en tiempo real</p>
-            </div>
-            {inputs.map((input, index) => (
+            </div>}
+            {!APIunavailable &&
+            inputs.map((input, index) => (
                 <div key={index} style={{ marginBottom: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <textarea rows="4" cols="50" value={input.text} onChange={(event) => handleInputChange(index, event)} style={{ marginBottom: '10px', marginRight: '20px', minHeight: '4em'}} />
                     {inputs.length !== 1 ? (
@@ -171,6 +194,7 @@ const Predecir = () => {
                     </div>
                 </div>
             ))}
+            {!APIunavailable &&
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                 <Button variant="primary" onClick={handleAddInput} style={{ marginRight: '10px' }}>+</Button>
                 <Button variant="info" onClick={() => handlePredict()} style={{ marginRight: '10px' }}>
@@ -179,7 +203,7 @@ const Predecir = () => {
                 <Button variant="secondary" onClick={() => handleClear()}>
                     Limpiar
                 </Button>
-            </div>
+            </div>}
         </div>
     );
 };

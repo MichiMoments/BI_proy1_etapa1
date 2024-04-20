@@ -55,62 +55,60 @@ const Metricas = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <h1>Metricas</h1>
-            <select value={selectedOption} onChange={handleSelectChange}>
-                <option value="weighted avg">General</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <div style={{paddingBottom: "15px"}} />
             {data && (
-                <div style={{ display: 'flex', justifyContent: 'space-around', width: '100vw' }}>
-                    <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                        {selectedOption === 'weighted avg' && (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
-                                <h3>Exactitud</h3>
-                                <div style={{ height: '20vh'}}>
-                                    <Pie data={createPieData(data.report.accuracy)} />
+            <><select value={selectedOption} onChange={handleSelectChange}>
+                    <option value="weighted avg">General</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><div style={{ paddingBottom: "15px" }} /><div style={{ display: 'flex', justifyContent: 'space-around', width: '100vw' }}>
+                        <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                                {selectedOption === 'weighted avg' && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
+                                        <h3>Exactitud</h3>
+                                        <div style={{ height: '20vh' }}>
+                                            <Pie data={createPieData(data.report.accuracy)} />
+                                        </div>
+                                        <p>{(data.report.accuracy * 100).toFixed(2)}%</p>
+                                    </div>
+                                )}
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
+                                    <h3>Precisión</h3>
+                                    <div style={{ height: '20vh' }}>
+                                        <Pie data={createPieData(data.report[selectedOption].precision)} />
+                                    </div>
+                                    <p>{(data.report[selectedOption].precision * 100).toFixed(2)}%</p>
                                 </div>
-                                <p>{(data.report.accuracy * 100).toFixed(2)}%</p>
-                            </div>
-                        )}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
-                            <h3>Precisión</h3>
-                            <div style={{ height: '20vh'}}>
-                                <Pie data={createPieData(data.report[selectedOption].precision)} />
-                            </div>
-                            <p>{(data.report[selectedOption].precision * 100).toFixed(2)}%</p>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
-                            <h3>Recall</h3>
-                            <div style={{ height: '20vh'}}>
-                                <Pie data={createPieData(data.report[selectedOption].recall)} />
-                            </div>
-                            <p>{(data.report[selectedOption].recall * 100).toFixed(2)}%</p>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
-                            <h3>F1-Score</h3>
-                            <div style={{ height: '20vh'}}>
-                                <Pie data={createPieData(data.report[selectedOption]['f1-score'])} />
-                            </div>
-                            <p>{(data.report[selectedOption]['f1-score'] * 100).toFixed(2)}%</p>
-                        </div>
-                    </div>
-                    <div style={{ width: '100%' }}>
-                        {selectedOption !== 'weighted avg' && (
-                            <>
-                                <h2>Palabras Clave</h2>
-                                <div style={{ height: '39vh', width: '100%' }}>
-                                    <Bar data={barData} options={barOptions} />
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
+                                    <h3>Recall</h3>
+                                    <div style={{ height: '20vh' }}>
+                                        <Pie data={createPieData(data.report[selectedOption].recall)} />
+                                    </div>
+                                    <p>{(data.report[selectedOption].recall * 100).toFixed(2)}%</p>
                                 </div>
-                            </>
-                        )}
-                    </div>
-                    </div>
-                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: "20px", paddingLeft: "20px" }}>
+                                    <h3>F1-Score</h3>
+                                    <div style={{ height: '20vh' }}>
+                                        <Pie data={createPieData(data.report[selectedOption]['f1-score'])} />
+                                    </div>
+                                    <p>{(data.report[selectedOption]['f1-score'] * 100).toFixed(2)}%</p>
+                                </div>
+                            </div>
+                            <div style={{ width: '100%' }}>
+                                {selectedOption !== 'weighted avg' && (
+                                    <>
+                                        <h2>Palabras Clave</h2>
+                                        <div style={{ height: '39vh', width: '100%' }}>
+                                            <Bar data={barData} options={barOptions} />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div></>
             )}
             {!data && <Spinner animation="border" role="status"/>}
         </div>
