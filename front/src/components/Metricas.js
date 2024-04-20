@@ -39,7 +39,7 @@ const Metricas = () => {
     
     const barOptions = {
         indexAxis: 'y',
-        maintainAspectRatio: false, // This allows you to control the size of the chart
+        maintainAspectRatio: false, 
     };
 
     const createPieData = (value) => ({

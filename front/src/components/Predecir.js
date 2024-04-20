@@ -22,28 +22,19 @@ const Predecir = () => {
         const newInputs = [...inputs];
         newInputs[index].text = event.target.value;
         setInputs(newInputs);
+
+        if (event.target.value === '') {
+            clearInput(index);
+            return;
+        }
+
         if (tiempoReal) {
             handlePredictRealTime(index);
         }
     };
 
     const handlePredictRealTime = async (index) => {
-        const response = await fetch('http://127.0.0.1:8000/predict', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ review: inputs[index].text })
-        });
-        const data = await response.json();
-        const newInputs = [...inputs];
-        newInputs[index].result = data.result;
-        newInputs[index].prob = data.prob;
-        setInputs(newInputs);
-    };
-
-    const handlePredict = async () => {
-        for (let index = 0; index < inputs.length; index++) {
+        try {
             const response = await fetch('http://127.0.0.1:8000/predict', {
                 method: 'POST',
                 headers: {
@@ -51,11 +42,40 @@ const Predecir = () => {
                 },
                 body: JSON.stringify({ review: inputs[index].text })
             });
+            if (!response.ok) {
+                throw new Error('API no disponible');
+            }
             const data = await response.json();
             const newInputs = [...inputs];
             newInputs[index].result = data.result;
             newInputs[index].prob = data.prob;
             setInputs(newInputs);
+        } catch (error) {
+            alert("API no disponible");
+        }
+    };
+    
+    const handlePredict = async () => {
+        try {
+            for (let index = 0; index < inputs.length; index++) {
+                const response = await fetch('http://127.0.0.1:8000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ review: inputs[index].text })
+                });
+                if (!response.ok) {
+                    throw new Error('API no disponible');
+                }
+                const data = await response.json();
+                const newInputs = [...inputs];
+                newInputs[index].result = data.result;
+                newInputs[index].prob = data.prob;
+                setInputs(newInputs);
+            }
+        } catch (error) {
+            alert("API no disponible");
         }
     };
 
