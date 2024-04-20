@@ -15,6 +15,9 @@ Ojo, si aparece este error:
 
 Lo que toca hacer es lo siguiente; Tienen que eliminar el archivo existente de "reviewModel.joblib", posteriormente tienen que ejetucar el cuaderno "proyecto2.ipynb" (completo, tarda unos 15 segundos), este creará de nuevo el .joblib, y ahora tienen que moverlo a la carpeta API.
 
+![image](https://github.com/MichiMoments/BI_proy1_etapa1/assets/98660771/b96ec4da-4620-4272-a7d5-0e7cbd5fe628)
+
+
 Despues de esto ejecutan en "main.py" de la carpeta API nuevamente, y no debería haber error (recuerden estar dentro de la carpeta de API).
 
 ![image](https://github.com/MichiMoments/BI_proy1_etapa1/assets/98660771/79d0677c-4f9f-41d7-bdac-771807085a8b)
