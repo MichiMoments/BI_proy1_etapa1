@@ -119,6 +119,7 @@ const Predecir = () => {
 
     return (
         <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
             <h1 style={{ textAlign: 'center', paddingBottom: "15px" }}>Predecir reseñas</h1>
             {APIunavailable ?
             <Spinner animation="border" role="status"/> : 
@@ -158,7 +159,9 @@ const Predecir = () => {
                 <div key={index} style={{ marginBottom: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <textarea rows="4" cols="50" value={input.text} onChange={(event) => handleInputChange(index, event)} style={{ marginBottom: '10px', marginRight: '20px', minHeight: '4em'}} />
                     {inputs.length !== 1 ? (
-                        <Button variant="outline-primary" onClick={() => handleRemoveInput(index)} style={{ marginRight: '20px' }}>-</Button>
+                        <Button variant="outline-primary" onClick={() => handleRemoveInput(index)} style={{ marginRight: '20px' }}>
+                            <i className="fas fa-times"></i>
+                        </Button>
                     ) : (
                         <Button variant="outline-primary" style={{ marginRight: '20px', visibility: 'hidden' }}>-</Button>
                     )}
@@ -196,7 +199,9 @@ const Predecir = () => {
             ))}
             {!APIunavailable &&
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                <Button variant="primary" onClick={handleAddInput} style={{ marginRight: '10px' }}>+</Button>
+                <Button variant="primary" onClick={handleAddInput} style={{ marginRight: '10px', borderRadius: '50%', padding: '10px 15px' }}>
+                    <i className="fas fa-plus"></i>
+                </Button>
                 <Button variant="info" onClick={() => handlePredict()} style={{ marginRight: '10px' }}>
                     Predecir
                 </Button>
